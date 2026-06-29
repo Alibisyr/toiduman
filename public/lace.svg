@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="20" viewBox="0 0 48 20">
+  <!-- One repeating unit of Kazakh ою lace (gold). Tile with background-repeat-x. -->
+  <g fill="#bd8f33">
+    <rect x="0" y="0" width="48" height="4" />
+    <path d="M0 4 Q12 18 24 4 Q36 18 48 4 Z" />
+    <circle cx="24" cy="8" r="1.7" />
+    <circle cx="11.5" cy="11.5" r="1.2" />
+    <circle cx="36.5" cy="11.5" r="1.2" />
+  </g>
+</svg>

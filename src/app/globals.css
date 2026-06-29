@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/*
+  Toiduman design tokens — "Neo-Nomad" premium.
+  Direction: modern minimalism + Kazakh etno luxury.
+  Warm cream paper, deep emerald primary, rich burgundy accent, metallic gold
+  linework. Ornament (ою-өрнек) carried as a faint background watermark.
+*/
+:root {
+  --background: #f5eddf; /* warm premium cream / beige */
+  --foreground: #241d14; /* warm near-black */
+  --card: #fffdf8; /* warm paper white */
+  --card-foreground: #241d14;
+  --muted: #efe6d6;
+  --muted-foreground: #6c6253;
+  --primary: #0f5d48; /* deep corporate emerald */
+  --primary-foreground: #f7f1e6;
+  --secondary: #7a2331; /* rich burgundy (velvet) */
+  --secondary-foreground: #f7ece2;
+  --accent: #c1962f; /* metallic ochre gold */
+  --accent-foreground: #2c2008;
+  --border: #e7dcc7;
+  --input: #e7dcc7;
+  --ring: #0f5d48;
+  --radius: 0.9rem;
+
+  /* gold ramp for metallic gradients (text, borders, buttons) */
+  --gold-1: #ecd699; /* highlight */
+  --gold-2: #c79a3c; /* mid */
+  --gold-3: #8f6b1f; /* deep */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-display: var(--font-display), var(--font-sans), system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 0.4rem);
+  --radius-md: calc(var(--radius) - 0.2rem);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 0.4rem);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /*
+    Warm paper backdrop for hero sections: soft emerald + gold light blooms
+    layered over a faint tiled ою-өрнек watermark. The watermark alpha is baked
+    into the SVG (~0.05) so it stays a whisper behind text.
+  */
+  .bg-paper {
+    background-color: var(--background);
+    background-image: radial-gradient(
+        circle at 18% 16%,
+        rgba(15, 93, 72, 0.06),
+        transparent 46%
+      ),
+      radial-gradient(circle at 86% 0%, rgba(193, 150, 47, 0.1), transparent 42%),
+      url("/ornament-watermark.svg");
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-size: auto, auto, 260px 260px;
+    background-position: center;
+  }
+
+  /* Metallic gold gradient clipped to text. */
+  .text-gold {
+    background: linear-gradient(
+      180deg,
+      var(--gold-1),
+      var(--gold-2) 52%,
+      var(--gold-3)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /*
+    Premium card: warm paper fill with an ultra-thin metallic-gold gradient
+    hairline (padding-box vs border-box trick) and a soft, layered volumetric
+    shadow with an inner top highlight for a tactile, printed-paper feel.
+    Pair with `rounded-*` on the element for corners.
+  */
+  .card-premium {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(180deg, #fffefb, #fbf5ea) padding-box,
+      linear-gradient(
+          135deg,
+          var(--gold-1),
+          var(--gold-3) 48%,
+          var(--gold-1)
+        )
+        border-box;
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.75),
+      0 1px 2px 0 rgba(33, 29, 23, 0.06),
+      0 18px 42px -14px rgba(33, 29, 23, 0.22),
+      0 8px 18px -12px rgba(15, 93, 72, 0.22);
+  }
+
+  /* Tiling Kazakh ою lace strip (gold) — borders for accent panels. */
+  .lace-strip {
+    height: 18px;
+    background-image: url("/lace.svg");
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: auto 18px;
+  }
+
+  /* General-purpose volumetric shadow for raised surfaces. */
+  .shadow-premium {
+    box-shadow:
+      0 1px 2px 0 rgba(33, 29, 23, 0.05),
+      0 16px 36px -16px rgba(33, 29, 23, 0.2);
+  }
+}
+
+/*
+  Invitation-template theming. Each <InviteTemplate> sets the --t* / --g*
+  custom properties on its root from a theme config; these semantic classes
+  read them (with fallbacks, so countdown/RSVP still render outside a theme).
+*/
+@layer components {
+  .tpl {
+    color: var(--ti, #241d14);
+  }
+  .tpl-paper {
+    background: var(--tp, #fffdf8);
+  }
+  .tpl-alt {
+    background: var(--tp2, #efe6d6);
+  }
+  .tpl-primary {
+    background: var(--tpr, #0f5d48);
+    color: var(--top, #f7f1e6);
+  }
+  .tpl-ink {
+    color: var(--ti, #241d14);
+  }
+  .tpl-soft {
+    color: var(--ts, #6c6253);
+  }
+  .tpl-onp {
+    color: var(--top, #f7f1e6);
+  }
+  .tpl-onp-soft {
+    color: color-mix(in srgb, var(--top, #f7f1e6) 72%, transparent);
+  }
+  .tpl-gold {
+    color: var(--g2, #c79a3c);
+  }
+  .tpl-accent {
+    color: var(--tac, #7a2331);
+  }
+  .tpl-eyebrow {
+    color: var(--g2, #c79a3c);
+    text-transform: uppercase;
+  }
+  .tpl-line {
+    border-color: var(--tl, #e7dcc7);
+  }
+  .tpl-card {
+    background: var(--tp, #fffdf8);
+    border: 1px solid color-mix(in srgb, var(--g2, #c79a3c) 26%, transparent);
+  }
+  .tpl-chip {
+    background: color-mix(in srgb, var(--tpr, #0f5d48) 12%, transparent);
+    color: var(--tpr, #0f5d48);
+  }
+  .tpl-chip-gold {
+    background: color-mix(in srgb, var(--g2, #c79a3c) 16%, transparent);
+    color: var(--g3, #8f6b1f);
+  }
+  .tpl-btn {
+    background: var(--tpr, #0f5d48);
+    color: var(--top, #f7f1e6);
+  }
+  .tpl-btn-outline {
+    background: var(--tp, #fffdf8);
+    border: 1px solid color-mix(in srgb, var(--g2, #c79a3c) 45%, transparent);
+    color: var(--ti, #241d14);
+  }
+  .tpl-day {
+    background: var(--g2, #c79a3c);
+    color: #2a1e08;
+  }
+  .tpl-time {
+    color: var(--tac, #7a2331);
+  }
+  .tpl-rule {
+    background: var(--tl, #e7dcc7);
+  }
+  .tpl-input {
+    background: var(--tp, #fffdf8);
+    border: 1px solid color-mix(in srgb, var(--g2, #c79a3c) 30%, transparent);
+    color: var(--ti, #241d14);
+  }
+  .tpl-input::placeholder {
+    color: color-mix(in srgb, var(--ts, #6c6253) 80%, transparent);
+  }
+}

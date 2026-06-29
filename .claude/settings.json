@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import sys,json;print\\('\\\\n'.join\\(json.load\\(sys.stdin\\)['scripts'].keys\\(\\)\\)\\)\")",
+      "Bash(npx tsc *)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=1280,1600 --screenshot=/private/tmp/claude-501/-Users-alibisyrlybay-Desktop-toiduman/f1d95b78-0e62-4e5d-9904-cb1b23a45daf/scratchpad/home.png http://localhost:3000/kk)",
+      "WebFetch(domain:www.shaqyru24.kz)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --virtual-time-budget=10000 --window-size=1000,6000 --screenshot=/private/tmp/claude-501/-Users-alibisyrlybay-Desktop-toiduman/f1d95b78-0e62-4e5d-9904-cb1b23a45daf/scratchpad/competitor_full.png 'https://www.shaqyru24.kz/view?builder_page_id=8edab90a-aa32-4270-a819-3689d0b58296&site_id=370&status=demo&temp_builder_page_id=e99ceb70-0033-4ce6-80dc-6eef232a1929&interface_lang=kz&invitation_lang=kz&category_name=toi&child_category=wedding')",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --virtual-time-budget=12000 --window-size=440,2400 --screenshot=/private/tmp/claude-501/-Users-alibisyrlybay-Desktop-toiduman/f1d95b78-0e62-4e5d-9904-cb1b23a45daf/scratchpad/comp_top.png 'https://www.shaqyru24.kz/view?builder_page_id=8edab90a-aa32-4270-a819-3689d0b58296&site_id=370&status=demo&temp_builder_page_id=e99ceb70-0033-4ce6-80dc-6eef232a1929&interface_lang=kz&invitation_lang=kz&category_name=toi&child_category=wedding')",
+      "Bash(sips -c 2800 880 --cropOffset 8400 0 /private/tmp/claude-501/-Users-alibisyrlybay-Desktop-toiduman/f1d95b78-0e62-4e5d-9904-cb1b23a45daf/scratchpad/comp_all.png --out /private/tmp/claude-501/-Users-alibisyrlybay-Desktop-toiduman/f1d95b78-0e62-4e5d-9904-cb1b23a45daf/scratchpad/comp_end.png)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -c \"import json;[json.load\\(open\\('messages/'+f\\)\\) for f in \\('kk.json','ru.json'\\)];print\\('JSON OK'\\)\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:3000/kk/preview\")",
+      "Bash(curl -s -o /dev/null -w \"lace.svg -> %{http_code}\\\\n\" \"http://localhost:3000/lace.svg\")",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --virtual-time-budget=8000 --window-size=460,1500 --screenshot=/private/tmp/claude-501/-Users-alibisyrlybay-Desktop-toiduman/f1d95b78-0e62-4e5d-9904-cb1b23a45daf/scratchpad/tpl_hero.png http://localhost:3000/kk/preview)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:3000/kk/templates\")",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --virtual-time-budget=8000 --window-size=1200,1500 --screenshot=/private/tmp/claude-501/-Users-alibisyrlybay-Desktop-toiduman/f1d95b78-0e62-4e5d-9904-cb1b23a45daf/scratchpad/gallery.png http://localhost:3000/kk/templates)",
+      "Bash(curl -s -o /dev/null -w \"/kk/preview -> %{http_code}\\\\n\" \"http://localhost:3000/kk/preview\")",
+      "Bash(curl -s \"http://localhost:3000/kk/templates\")",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --virtual-time-budget=9000 --window-size=1200,2050 --screenshot=/private/tmp/claude-501/-Users-alibisyrlybay-Desktop-toiduman/f1d95b78-0e62-4e5d-9904-cb1b23a45daf/scratchpad/gallery6.png http://localhost:3000/kk/templates)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --virtual-time-budget=8000 --window-size=440,1700 --screenshot=/private/tmp/claude-501/-Users-alibisyrlybay-Desktop-toiduman/f1d95b78-0e62-4e5d-9904-cb1b23a45daf/scratchpad/gul_top.png http://localhost:3000/kk/preview/gul)",
+      "Bash(gh auth *)",
+      "Bash(gh repo *)"
+    ]
+  }
+}
