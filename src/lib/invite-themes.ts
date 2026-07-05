@@ -1,15 +1,31 @@
 import type { CSSProperties } from "react";
 
 /**
- * Invitation template themes. A "template" is a theme config: a palette plus
- * a few layout discriminators (hero / ornament / surface). <InviteTemplate>
- * reads `cssVars` onto its root and switches structure on the discriminators,
- * so adding a template = adding a config here. All render the same `ToiData`.
+ * Invitation template themes. A "template" is an art direction: a palette,
+ * background photography, and a few discriminators (name typography /
+ * ornament flavour / section edge). <InviteTemplate> reads `cssVars` onto its
+ * root and switches structure on the discriminators, so adding a template =
+ * adding a config here. All render the same `ToiData`.
  */
 
-export type HeroStyle = "stage" | "band" | "arch" | "minimal" | "split";
 export type OrnamentStyle = "nomad" | "floral" | "line" | "none";
-export type SurfaceStyle = "band" | "card" | "flat";
+/** How the hosts' names are set in the hero. */
+export type NameStyle = "script" | "serif" | "caps";
+/** Transition from the photo hero into the paper body. */
+export type EdgeStyle = "torn" | "lace" | "flat";
+
+export type TemplateArt = {
+  /** Full-bleed hero photo (public/ path). Omit for a pure-typography hero. */
+  hero?: string;
+  /** Photo behind the venue band. Falls back to the primary panel. */
+  band?: string;
+  /** Photo behind the closing section. */
+  footer?: string;
+  /** CSS filter applied to every photo (e.g. duotone for `modern`). */
+  filter?: string;
+  /** Scrim painted over photos, under the text. */
+  overlay: string;
+};
 
 export type TemplateTheme = {
   id: string;
@@ -19,11 +35,12 @@ export type TemplateTheme = {
   descKey: string;
   /** Tailwind gradient stops for the wizard picker / fallback swatch. */
   swatch: string;
-  hero: HeroStyle;
+  nameStyle: NameStyle;
   ornament: OrnamentStyle;
-  surface: SurfaceStyle;
+  edge: EdgeStyle;
   /** Corner radius for the card + inner cards. */
   radius: string;
+  art: TemplateArt;
   /** Custom properties applied to the template root. */
   cssVars: CSSProperties;
 };
@@ -60,14 +77,23 @@ function vars(v: {
 
 export const INVITE_THEMES: TemplateTheme[] = [
   {
+    // Theme 1 — "Premium Neo-Nomad" flagship. Golden-steppe photography under
+    // a deep-emerald scrim, warm cream paper cards, brand metallic-gold
+    // linework (matches the marketing site's design language exactly).
     id: "dala",
     name: "Дала",
     descKey: "desc_dala",
     swatch: "from-[#0f5d48] to-[#14755b]",
-    hero: "stage",
+    nameStyle: "script",
     ornament: "nomad",
-    surface: "band",
+    edge: "torn",
     radius: "2rem",
+    art: {
+      hero: "/invite/dala-hero.jpg",
+      band: "/invite/dala-hero.jpg",
+      overlay:
+        "linear-gradient(180deg, rgba(9,42,33,0.38) 0%, rgba(9,38,30,0.28) 38%, rgba(8,36,28,0.62) 74%, rgba(7,34,27,0.85) 100%)",
+    },
     cssVars: vars({
       bg: "#f5eddf",
       tp: "#fffdf8",
@@ -75,23 +101,31 @@ export const INVITE_THEMES: TemplateTheme[] = [
       ti: "#241d14",
       ts: "#6c6253",
       tl: "#e7dcc7",
-      tpr: "#0f5d48",
+      tpr: "#0f5d48", // deep corporate emerald (locked)
       top: "#f7f1e6",
-      tac: "#7a2331",
-      g1: "#ecd699",
-      g2: "#c79a3c",
-      g3: "#8f6b1f",
+      tac: "#6e2a3f", // velvet burgundy accent
+      g1: "#f3e3ac", // metallic gold highlight
+      g2: "#d4af37", // true brand gold
+      g3: "#976f1c", // deep gold / shadow
     }),
   },
   {
+    // Rust-red desert mountains under a burgundy scrim — the "classic toi"
+    // red-and-gold, done with atmosphere instead of flat colour.
     id: "qyzyl",
     name: "Қызыл",
     descKey: "desc_qyzyl",
     swatch: "from-[#7a1f2b] to-[#a8434f]",
-    hero: "band",
+    nameStyle: "script",
     ornament: "nomad",
-    surface: "band",
+    edge: "lace",
     radius: "1rem",
+    art: {
+      hero: "/invite/qyzyl-hero.jpg",
+      band: "/invite/qyzyl-hero.jpg",
+      overlay:
+        "linear-gradient(180deg, rgba(64,14,20,0.42) 0%, rgba(58,13,19,0.30) 40%, rgba(52,11,17,0.66) 76%, rgba(46,10,15,0.88) 100%)",
+    },
     cssVars: vars({
       bg: "#f1e7dd",
       tp: "#fffaf3",
@@ -108,14 +142,19 @@ export const INVITE_THEMES: TemplateTheme[] = [
     }),
   },
   {
+    // Pure-typography luxury: ivory silk, gold-foil serif, double hairline
+    // frame. The one theme with no photography — print-shop elegance.
     id: "altyn",
     name: "Алтын",
     descKey: "desc_altyn",
     swatch: "from-[#b1872c] to-[#e6cd8f]",
-    hero: "minimal",
+    nameStyle: "serif",
     ornament: "line",
-    surface: "flat",
+    edge: "flat",
     radius: "0.4rem",
+    art: {
+      overlay: "none",
+    },
     cssVars: vars({
       bg: "#f9f5ec",
       tp: "#ffffff",
@@ -132,14 +171,23 @@ export const INVITE_THEMES: TemplateTheme[] = [
     }),
   },
   {
+    // Milky way over snowy peaks; the whole invite stays midnight-dark with
+    // starlight-gold accents. Footer returns to a purple starry horizon.
     id: "tun",
     name: "Түн",
     descKey: "desc_tun",
     swatch: "from-[#14120d] to-[#3a3320]",
-    hero: "stage",
+    nameStyle: "script",
     ornament: "nomad",
-    surface: "band",
+    edge: "torn",
     radius: "1.5rem",
+    art: {
+      hero: "/invite/tun-hero.jpg",
+      band: "/invite/tun-stars.jpg",
+      footer: "/invite/tun-stars.jpg",
+      overlay:
+        "linear-gradient(180deg, rgba(9,10,20,0.30) 0%, rgba(9,10,20,0.22) 40%, rgba(10,10,18,0.66) 78%, rgba(11,10,16,0.90) 100%)",
+    },
     cssVars: vars({
       bg: "#14120d",
       tp: "#1d1a13",
@@ -156,14 +204,22 @@ export const INVITE_THEMES: TemplateTheme[] = [
     }),
   },
   {
+    // Cherry blossom in full bloom under a soft rose scrim — the romantic,
+    // floral one (qyz uzatu / spring weddings).
     id: "gul",
     name: "Гүл",
     descKey: "desc_gul",
     swatch: "from-[#a85a63] to-[#d39aa0]",
-    hero: "arch",
+    nameStyle: "script",
     ornament: "floral",
-    surface: "card",
+    edge: "torn",
     radius: "1.75rem",
+    art: {
+      hero: "/invite/gul-hero.jpg",
+      band: "/invite/gul-hero.jpg",
+      overlay:
+        "linear-gradient(180deg, rgba(88,36,44,0.48) 0%, rgba(88,36,44,0.38) 40%, rgba(74,30,38,0.68) 76%, rgba(64,26,33,0.86) 100%)",
+    },
     cssVars: vars({
       bg: "#fbf1ee",
       tp: "#fffafa",
@@ -180,14 +236,22 @@ export const INVITE_THEMES: TemplateTheme[] = [
     }),
   },
   {
+    // Editorial black-and-white: a galloping steppe horse duotoned to
+    // charcoal, huge grotesque caps, one hot terracotta accent.
     id: "modern",
     name: "Заманауи",
     descKey: "desc_modern",
     swatch: "from-[#17170f] to-[#c0492b]",
-    hero: "split",
+    nameStyle: "caps",
     ornament: "none",
-    surface: "flat",
+    edge: "flat",
     radius: "0rem",
+    art: {
+      hero: "/invite/modern-hero.jpg",
+      filter: "grayscale(1) contrast(1.1) brightness(0.9)",
+      overlay:
+        "linear-gradient(180deg, rgba(18,18,15,0.30) 0%, rgba(18,18,15,0.22) 42%, rgba(16,16,13,0.68) 78%, rgba(14,14,12,0.92) 100%)",
+    },
     cssVars: vars({
       bg: "#f3f3ef",
       tp: "#ffffff",

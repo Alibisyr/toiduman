@@ -174,7 +174,15 @@
     "rsvpSubmit": "Жауап беру",
     "rsvpThanks": "Жауабыңыз үшін рахмет!",
     "rsvpNamePh": "Есіміңіз",
-    "ending": "Сіздерді тойда күтеміз!"
+    "ending": "Сіздерді тойда күтеміз!",
+    "music": "Әуен",
+    "musicPlay": "Әуенді қосу",
+    "musicPause": "Әуенді тоқтату",
+    "dressCodeNote": "Тойымыздың түс палитрасы",
+    "rsvpName": "Есіміңіз",
+    "rsvpGuests": "Қонақтар саны",
+    "rsvpPlusOne": "Серіктесіммен келемін",
+    "rsvpAttendQ": "Тойға келе аласыз ба?"
   },
   "Templates": {
     "title": "Үлгілер",

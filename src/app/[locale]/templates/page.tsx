@@ -70,7 +70,12 @@ function TemplateCard({
       >
         <div className="mx-auto h-full w-[216px] overflow-hidden">
           <div className="w-[432px] origin-top-left scale-[0.5]">
-            <InviteTemplate data={demo} locale={locale} theme={theme} />
+            <InviteTemplate
+              data={demo}
+              locale={locale}
+              theme={theme}
+              animate={false}
+            />
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-card to-transparent" />

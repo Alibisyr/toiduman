@@ -13,21 +13,33 @@
   --card-foreground: #241d14;
   --muted: #efe6d6;
   --muted-foreground: #6c6253;
-  --primary: #0f5d48; /* deep corporate emerald */
+  --primary: #0f5d48; /* deep corporate emerald (locked) */
   --primary-foreground: #f7f1e6;
-  --secondary: #7a2331; /* rich burgundy (velvet) */
-  --secondary-foreground: #f7ece2;
-  --accent: #c1962f; /* metallic ochre gold */
-  --accent-foreground: #2c2008;
-  --border: #e7dcc7;
-  --input: #e7dcc7;
+  --secondary: #4a1a2c; /* deep velvet burgundy */
+  --secondary-foreground: #f6e7da;
+  --accent: #d4af37; /* metallic gold */
+  --accent-foreground: #2a1f06;
+  --border: #e3d6bd;
+  --input: #e3d6bd;
   --ring: #0f5d48;
   --radius: 0.9rem;
 
-  /* gold ramp for metallic gradients (text, borders, buttons) */
-  --gold-1: #ecd699; /* highlight */
-  --gold-2: #c79a3c; /* mid */
-  --gold-3: #8f6b1f; /* deep */
+  /* metallic gold ramp for gradients (text, hairline borders, buttons) */
+  --gold-1: #f3e3ac; /* highlight */
+  --gold-2: #d4af37; /* mid — true metallic gold */
+  --gold-3: #976f1c; /* deep / shadow */
+
+  /* burgundy ramp for velvet accents + framing */
+  --burgundy-1: #6e2a3f;
+  --burgundy-2: #4a1a2c;
+  --burgundy-3: #2f0f1c;
+
+  /*
+    Fine tactile paper grain (fractal noise), kept in a custom property so the
+    same texture can be layered onto the body and any paper surface without
+    repeating the data URI.
+  */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
 @theme inline {
@@ -49,6 +61,9 @@
 
   --font-sans: var(--font-sans), system-ui, sans-serif;
   --font-display: var(--font-display), var(--font-sans), system-ui, sans-serif;
+  /* invitation faces — high-contrast wedding serif + formal calligraphy */
+  --font-serif: var(--font-serif), Georgia, "Times New Roman", serif;
+  --font-script: var(--font-script), "Snell Roundhand", cursive;
 
   --radius-sm: calc(var(--radius) - 0.4rem);
   --radius-md: calc(var(--radius) - 0.2rem);
@@ -59,6 +74,85 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  position: relative;
+}
+
+/*
+  Tactile wedding-paper grain — a fixed, full-viewport overlay that sits behind
+  all content (negative z-index paints above the body fill but below flow
+  content). Multiply blend keeps it a warm, printed-fibre texture, never gray.
+*/
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: var(--grain);
+  background-size: 220px 220px;
+  mix-blend-mode: multiply;
+  opacity: 0.06;
+}
+
+/*
+  Massive, subtle noise watermark anchored to the LEFT edge (the supplied
+  fractal-noise SVG). Whisper-soft at 0.03 so it only adds tactile depth to the
+  left margin of the page.
+*/
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: url("/paper-noise.svg");
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: auto 135vh;
+  opacity: 0.03;
+}
+
+/*
+  GSAP scroll-choreography initial states. `.js-anim` is added to <html> before
+  first paint (inline script in the layout) only when motion is allowed, and is
+  removed if GSAP fails to load — so these "pre-animation" hidden states never
+  trap content. <ScrollChoreography> animates each target into place.
+*/
+.js-anim [data-hero-reveal],
+.js-anim [data-reveal],
+.js-anim [data-card],
+.js-anim [data-hero-card],
+.js-anim [data-pop],
+.js-anim [data-draw-svg] {
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+.js-anim [data-connector] {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* (Invitation choreography now runs on framer-motion — see components/invite/motion.tsx.) */
+
+@media (prefers-reduced-motion: reduce) {
+  .js-anim [data-hero-reveal],
+  .js-anim [data-reveal],
+  .js-anim [data-card],
+  .js-anim [data-hero-card],
+  .js-anim [data-pop],
+  .js-anim [data-draw-svg],
+  .js-anim [data-connector] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+/* Slow gold ring rotation on the hero music button while it is playing. */
+@keyframes inv-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @layer utilities {
@@ -73,16 +167,19 @@ body {
   */
   .bg-paper {
     background-color: var(--background);
-    background-image: radial-gradient(
+    background-image: var(--grain),
+      radial-gradient(
         circle at 18% 16%,
-        rgba(15, 93, 72, 0.06),
+        rgba(15, 93, 72, 0.07),
         transparent 46%
       ),
-      radial-gradient(circle at 86% 0%, rgba(193, 150, 47, 0.1), transparent 42%),
+      radial-gradient(circle at 86% 2%, rgba(212, 175, 55, 0.14), transparent 44%),
+      radial-gradient(circle at 50% 120%, rgba(74, 26, 44, 0.06), transparent 55%),
       url("/ornament-watermark.svg");
-    background-repeat: no-repeat, no-repeat, repeat;
-    background-size: auto, auto, 260px 260px;
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat, repeat;
+    background-size: 220px 220px, auto, auto, auto, 260px 260px;
     background-position: center;
+    background-blend-mode: multiply, normal, normal, normal, normal;
   }
 
   /* Metallic gold gradient clipped to text. */
@@ -111,15 +208,19 @@ body {
       linear-gradient(
           135deg,
           var(--gold-1),
-          var(--gold-3) 48%,
+          var(--gold-3) 42%,
+          var(--gold-2) 60%,
           var(--gold-1)
         )
         border-box;
     box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.75),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.85),
+      inset 0 0 0 1px rgba(212, 175, 55, 0.08),
+      inset 0 -16px 32px -28px rgba(74, 26, 44, 0.35),
       0 1px 2px 0 rgba(33, 29, 23, 0.06),
-      0 18px 42px -14px rgba(33, 29, 23, 0.22),
-      0 8px 18px -12px rgba(15, 93, 72, 0.22);
+      0 4px 8px -4px rgba(33, 29, 23, 0.1),
+      0 24px 56px -18px rgba(47, 15, 28, 0.28),
+      0 12px 24px -14px rgba(15, 93, 72, 0.22);
   }
 
   /* Tiling Kazakh ою lace strip (gold) — borders for accent panels. */
@@ -134,8 +235,70 @@ body {
   /* General-purpose volumetric shadow for raised surfaces. */
   .shadow-premium {
     box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
       0 1px 2px 0 rgba(33, 29, 23, 0.05),
       0 16px 36px -16px rgba(33, 29, 23, 0.2);
+  }
+
+  /* Thin metallic-gold gradient rule — fades to nothing at both ends. */
+  .gold-rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--gold-3) 18%,
+      var(--gold-1) 50%,
+      var(--gold-3) 82%,
+      transparent
+    );
+  }
+
+  /* Inner double-hairline gold frame, drawn with insets (no layout shift). */
+  .frame-gold {
+    box-shadow:
+      inset 0 0 0 1px rgba(212, 175, 55, 0.55),
+      inset 0 0 0 4px rgba(255, 253, 248, 0.85),
+      inset 0 0 0 5px rgba(212, 175, 55, 0.3);
+  }
+
+  /*
+    Decorative ornament layer: pin behind content, never intercept clicks, and
+    stay crisp. Pair with a `text-*` color + low opacity for the tint.
+  */
+  .ornament-layer {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  /*
+    Crisp, horizontally tiling ою band ribbon (qoshqar-muiz). The motif keeps
+    its aspect ratio (auto width) and repeats, so it never looks stretched.
+    Set the colour by choosing the gold/burgundy background image; control
+    presence with the element height + opacity.
+  */
+  .ornament-ribbon {
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: auto 100%;
+  }
+  .ornament-ribbon-fade {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 14%,
+      #000 86%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 14%,
+      #000 86%,
+      transparent
+    );
   }
 }
 

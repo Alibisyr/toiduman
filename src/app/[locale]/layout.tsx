@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Manrope, Inter } from "next/font/google";
+import Script from "next/script";
+import { Manrope, Inter, Cormorant, Great_Vibes } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -20,6 +21,24 @@ const display = Manrope({
 const sans = Inter({
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+// Invitation-template faces. Cormorant = high-contrast wedding serif for
+// headings/dates; Great Vibes = formal calligraphy for the hosts' names.
+// Both cover Kazakh Cyrillic via cyrillic-ext.
+const serif = Cormorant({
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const script = Great_Vibes({
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
+  weight: "400",
+  variable: "--font-script",
   display: "swap",
 });
 
@@ -52,9 +71,22 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${display.variable} ${sans.variable} h-full antialiased`}
+      className={`${display.variable} ${sans.variable} ${serif.variable} ${script.variable} h-full antialiased`}
+      // The `js-anim-init` script below adds `.js-anim` to <html> before React
+      // hydrates (for no-flash GSAP), so the class list intentionally differs
+      // from the server HTML. Suppress the resulting attribute mismatch warning.
+      suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
+        {/*
+          Mark the document for GSAP choreography before first paint, so the
+          pre-animation hidden states apply with no flash. Skipped when the
+          visitor prefers reduced motion; <ScrollChoreography> removes the class
+          again if GSAP cannot load.
+        */}
+        <Script id="js-anim-init" strategy="beforeInteractive">
+          {`(function(){try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-anim')}}catch(e){}})()`}
+        </Script>
         <NextIntlClientProvider>
           <SiteHeader />
           <main className="flex-1">{children}</main>

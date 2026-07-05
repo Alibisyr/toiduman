@@ -24,15 +24,19 @@ export function Countdown({ eventAt }: { eventAt: string }) {
   ];
 
   return (
-    <div className="mt-5">
-      <p className="tpl-soft text-xs uppercase tracking-wide">{t("untilToi")}</p>
-      <div className="mt-2 flex items-stretch justify-center gap-2">
+    <div className="mt-6">
+      <p className="tpl-soft font-serif text-xs uppercase tracking-[0.22em]">
+        {t("untilToi")}
+      </p>
+      <div className="mt-3 flex items-stretch justify-center gap-2.5">
         {blocks.map((b) => (
-          <div key={b.label} className="tpl-card min-w-14 rounded-lg px-3 py-2">
-            <div className="tpl-gold font-display text-xl font-bold">
+          <div key={b.label} className="tpl-card min-w-16 rounded-xl px-3 py-2.5">
+            <div className="tpl-gold font-serif text-2xl font-semibold tabular-nums">
               {b.value}
             </div>
-            <div className="tpl-soft text-[10px] uppercase">{b.label}</div>
+            <div className="tpl-soft text-[10px] uppercase tracking-[0.14em]">
+              {b.label}
+            </div>
           </div>
         ))}
       </div>

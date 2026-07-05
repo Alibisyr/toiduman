@@ -16,7 +16,7 @@ export function StepPreview() {
   return (
     <div>
       <StepHeading title={t("previewTitle")} subtitle={t("previewSubtitle")} />
-      <InviteTemplate data={data} locale={locale} />
+      <InviteTemplate data={data} locale={locale} animate={false} />
       <p className="mt-6 text-center text-xs text-muted-foreground">
         {t("previewNote")}
       </p>

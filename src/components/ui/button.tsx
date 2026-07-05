@@ -8,11 +8,11 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-primary text-primary-foreground shadow-[0_8px_20px_-8px_rgba(15,93,72,0.55)] ring-1 ring-inset ring-white/10 hover:-translate-y-px hover:bg-primary/95 hover:shadow-[0_14px_28px_-10px_rgba(15,93,72,0.6)] active:translate-y-0 active:shadow-[0_6px_14px_-8px_rgba(15,93,72,0.5)]",
+          "bg-primary text-primary-foreground ring-1 ring-inset ring-white/12 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),inset_0_-3px_7px_-2px_rgba(0,0,0,0.28),0_10px_22px_-8px_rgba(15,93,72,0.55)] hover:-translate-y-px hover:bg-primary/95 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.26),inset_0_-3px_7px_-2px_rgba(0,0,0,0.3),0_16px_30px_-10px_rgba(15,93,72,0.6)] active:translate-y-0 active:shadow-[inset_0_2px_6px_0_rgba(0,0,0,0.32),0_4px_10px_-6px_rgba(15,93,72,0.5)]",
         accent:
-          "bg-[linear-gradient(180deg,var(--gold-1),var(--accent)_55%,var(--gold-3))] text-accent-foreground shadow-[0_8px_20px_-8px_rgba(143,107,31,0.6)] ring-1 ring-inset ring-white/25 hover:-translate-y-px hover:brightness-[1.04] hover:shadow-[0_14px_28px_-10px_rgba(143,107,31,0.65)] active:translate-y-0",
+          "bg-[linear-gradient(180deg,var(--gold-1),var(--accent)_55%,var(--gold-3))] text-accent-foreground ring-1 ring-inset ring-white/30 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55),inset_0_-3px_7px_-2px_rgba(120,80,10,0.45),0_10px_22px_-8px_rgba(151,111,28,0.55)] hover:-translate-y-px hover:brightness-[1.04] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6),inset_0_-3px_7px_-2px_rgba(120,80,10,0.5),0_16px_30px_-10px_rgba(151,111,28,0.6)] active:translate-y-0 active:shadow-[inset_0_2px_6px_0_rgba(120,80,10,0.5)]",
         outline:
-          "border border-accent/30 bg-card text-foreground shadow-sm hover:-translate-y-px hover:border-accent/70 hover:bg-accent/5 hover:shadow-md active:translate-y-0",
+          "border border-accent/40 bg-card text-foreground shadow-[inset_0_1px_0_0_rgba(255,255,255,0.7),0_2px_6px_-3px_rgba(33,29,23,0.18)] hover:-translate-y-px hover:border-accent/70 hover:bg-accent/5 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.85),0_10px_20px_-9px_rgba(151,111,28,0.4)] active:translate-y-0 active:shadow-[inset_0_2px_5px_0_rgba(151,111,28,0.18)]",
         ghost: "text-foreground/80 hover:bg-accent/10 hover:text-foreground",
       },
       size: {

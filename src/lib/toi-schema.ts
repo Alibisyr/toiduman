@@ -42,10 +42,31 @@ export const contactSchema = z.object({
 });
 export type Contact = z.infer<typeof contactSchema>;
 
+/**
+ * Program-item kinds. Drive the icon shown next to each timeline row in the
+ * invite. `kind` is optional and additive — older invites without it fall back
+ * to keyword inference (see `inferProgramKind`) and finally a neutral icon.
+ */
+export const PROGRAM_KINDS = [
+  "welcome", // қонақтарды қарсы алу / встреча гостей (reception)
+  "ceremony", // неке қию / роспись (marriage)
+  "betashar", // беташар (bride-unveiling rite)
+  "banquet", // салтанатты ас / банкет (dinner)
+  "toast", // тілек / тост
+  "dance", // той-думан / танцы
+  "gift", // сыйлық
+  "photo", // фотосессия
+  "other",
+] as const;
+export const programKindSchema = z.enum(PROGRAM_KINDS);
+export type ProgramKind = (typeof PROGRAM_KINDS)[number];
+
 export const programItemSchema = z.object({
   time: z.string().max(20).optional(), // e.g. "18:00"
   title: z.string().min(1).max(120),
   description: z.string().max(300).optional(),
+  /** Optional event kind → picks the timeline icon. */
+  kind: programKindSchema.optional(),
 });
 export type ProgramItem = z.infer<typeof programItemSchema>;
 
@@ -60,9 +81,14 @@ export const toiDataSchema = z.object({
   address: z.string().max(300).default(""),
   mapUrl: optionalUrl.default(""),
   dressCode: z.string().max(120).default(""),
+  /** Dress-code palette: CSS colour strings rendered as swatch circles. */
+  dressColors: z.array(z.string().max(40)).max(8).default([]),
   program: z.array(programItemSchema).max(20).default([]),
   contacts: z.array(contactSchema).max(10).default([]),
   coverPhotoUrl: optionalUrl.default(""),
+  /** Background music for the hero player button (autoplay is blocked, so the
+   *  guest taps to play). Any audio URL. */
+  musicUrl: optionalUrl.default(""),
   gallery: z.array(z.url()).max(30).default([]),
   customMessage: z.string().max(1000).default(""),
   /** Per-invite theme tweaks (e.g. { primary: "#1c6b72" }). */
@@ -80,9 +106,29 @@ export const emptyToiData: ToiData = {
   address: "",
   mapUrl: "",
   dressCode: "",
+  dressColors: [],
   program: [],
   contacts: [],
   coverPhotoUrl: "",
+  musicUrl: "",
   gallery: [],
   customMessage: "",
 };
+
+/**
+ * Best-effort guess of a program item's kind from its title, for invites whose
+ * rows have no explicit `kind`. Matches both Kazakh and Russian keywords.
+ */
+export function inferProgramKind(title: string): ProgramKind {
+  const s = title.toLowerCase();
+  if (/беташар|betashar/.test(s)) return "betashar";
+  if (/неке|қию|nika|никах|роспись|загс|қиыл/.test(s)) return "ceremony";
+  if (/қарсы|күту|встреч|сбор|reception|welcome|жинал/.test(s)) return "welcome";
+  if (/ас\b|дастарх|банкет|ужин|обед|тамақ|dinner|той\b/.test(s))
+    return "banquet";
+  if (/думан|би|танц|disco|дискотек|dance/.test(s)) return "dance";
+  if (/тілек|тост|сөз|toast|речь/.test(s)) return "toast";
+  if (/сыйлық|подар|gift/.test(s)) return "gift";
+  if (/фото|photo|сесси/.test(s)) return "photo";
+  return "other";
+}

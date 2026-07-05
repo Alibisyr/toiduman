@@ -53,9 +53,11 @@ export function formToToiData(form: WizardFormInput, media: Media): ToiData {
     address: form.address?.trim() ?? "",
     mapUrl: form.mapUrl ?? "",
     dressCode: form.dressCode?.trim() ?? "",
+    dressColors: [],
     program: form.program ?? [],
     contacts: form.contacts ?? [],
     coverPhotoUrl: media.coverPhotoUrl,
+    musicUrl: "",
     gallery: media.gallery,
     customMessage: form.customMessage?.trim() ?? "",
   };

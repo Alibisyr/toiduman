@@ -14,15 +14,40 @@ export function getDemoToi(locale: string): ToiData {
     address: kk ? "Алматы, Достық даңғылы, 240" : "Алматы, пр. Достык, 240",
     mapUrl: "https://2gis.kz/almaty",
     dressCode: kk ? "Классикалық стиль" : "Классический стиль",
+    // Burgundy · emerald · gold · charcoal · cream — the Neo-Nomad palette.
+    dressColors: ["#4a1a2c", "#0f5d48", "#d4af37", "#1c1c1c", "#f1e7d2"],
     program: [
-      { time: "16:00", title: kk ? "Қонақтарды қарсы алу" : "Встреча гостей" },
-      { time: "17:00", title: kk ? "Салтанатты ас" : "Торжество" },
-      { time: "21:00", title: kk ? "Той-думан" : "Танцевальный вечер" },
+      {
+        time: "16:00",
+        kind: "welcome",
+        title: kk ? "Қонақтарды қарсы алу" : "Встреча гостей",
+      },
+      {
+        time: "17:00",
+        kind: "ceremony",
+        title: kk ? "Неке қию салты" : "Церемония бракосочетания",
+      },
+      {
+        time: "18:30",
+        kind: "betashar",
+        title: kk ? "Беташар" : "Беташар",
+      },
+      {
+        time: "19:00",
+        kind: "banquet",
+        title: kk ? "Салтанатты ас" : "Праздничный банкет",
+      },
+      {
+        time: "21:00",
+        kind: "dance",
+        title: kk ? "Той-думан" : "Танцевальный вечер",
+      },
     ],
     contacts: [
       { name: kk ? "Той иесі" : "Организатор", phone: "+7 700 123 45 67" },
     ],
     coverPhotoUrl: "",
+    musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
     gallery: [],
     customMessage: kk
       ? "Сіздерді ұлымыз Нұрлан мен қызымыз Айдананың үйлену тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз."
